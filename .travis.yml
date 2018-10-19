@@ -1,10 +1,10 @@
 language: julia
 
 os:
-- linux
+  - linux
 
 julia:
-- 1.0
+  - 1.0
 
 notifications:
   email: false
@@ -15,20 +15,20 @@ git:
 cache:
   timeout: 1000
   directories:
-  - downloads
+    - downloads
 
 env:
   global:
-  - BINARYBUILDER_DOWNLOADS_CACHE=downloads
-  - BINARYBUILDER_AUTOMATIC_APPLE=false
+    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+    - BINARYBUILDER_AUTOMATIC_APPLE=false
 
 sudo: required
 
 before_script:
-- julia -e 'using Pkg; pkg"add BinaryProvider"; pkg"add BinaryBuilder#master"; Pkg.build()'
+  - julia -e 'using Pkg; pkg"add BinaryProvider"; pkg"add BinaryBuilder#master"; Pkg.build()'
 
 script:
-- julia build_tarballs.jl
+  - julia build_tarballs.jl
 
 deploy:
   provider: releases
