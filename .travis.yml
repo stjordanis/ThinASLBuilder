@@ -35,8 +35,8 @@ deploy:
   api_key:
     secure: eFEHpXZIJswCN/JzYibNgbHWUCGvA8U/RQp4jj33lHcKmfrZREjoBZbcb3Antx/DMgDS4qd/Ru+OnSISMYlVrvuvKKPsuoCswqW+VdqcAUFXt6xB5/k4IFf6sWElKIccpUFhu9XBwO+pQXaxQg2CPuw9a3DWywJSpAGDIrrvcm36WNcz2zkikuNqFgngLuvaYDEh6lg3FIDhbu0Jeq6PWjZipIvJDYBi4g4wOJ51s/+mHFCAdRN4+LAtzmGKrk1tsMPtxbJO9jmwcqueGvQDxUUGPVnt4LxoeZJPN1KzLvPzbm8QTFC8fRWx+jjFH5O59BFQvZRbHLSNPvMcNnynmbLSM4hMQamy7NP4vrR5CC2GS/ohuooYxoI2cHaBqXv/E8W0mLCLFwYtpoJ/dePk4aqx19K2IkjYmuvaLPmDcw9Ks3iSZGepcjeGrozRGeaEWz/JTBTwReKdVCT3roMBtjOFAH3ptpS0LorAnXgZ7+O+1vo2nyaofTC4lWQSKt8VVxibaBxErNZ68YfUYP/zW7cPQPDsGkXlOV+n8yHQ/HfjVEgei7b6zsGxShnquPQS24TxYPNOT1MD1pA9TTF5hzNTcJX+lLU6S/xiHI+0BhqGBYgoLZqnZKg2JYG4aVcXzIDOE5jgVwrip2AjgfE0LSLlmUE/purRrINOk7EvqhY=
   file_glob: true
-    file: products/*
-    skip_cleanup: true
+  file: products/*
+  skip_cleanup: true
   on:
     repo: JuliaSmoothOptimizers/ThinASLBuilder
     tags: true
