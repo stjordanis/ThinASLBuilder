@@ -22,6 +22,7 @@ so="so"
 all_load="--whole-archive"
 noall_load="--no-whole-archive"
 makefile="makefile.u"
+cflags=""
 
 if [ -f $WORKSPACE/srcdir/asl-extra/arith.h.$target ]; then
     cp $WORKSPACE/srcdir/asl-extra/arith.h.$target ./arith.h
@@ -35,6 +36,10 @@ fi
 if [ $target = "aarch64-linux-musl" ]; then
     cp $WORKSPACE/srcdir/asl-extra/arith.h.aarch64-linux-gnu ./arith.h
 fi
+if [ $target = "x86_64-unknown-freebsd11.1" ]; then
+    cp $WORKSPACE/srcdir/asl-extra/arith.h.x86_64-linux-gnu ./arith.h
+    cflags="-D__XSI_VISIBLE=1"
+fi
 
 if [ $target = "x86_64-w64-mingw32" || $target = "i686-w64-mingw32" ]; then
     so="dll"
@@ -46,7 +51,7 @@ if [ $target = "x86_64-apple-darwin14" ]; then
     noall_load="-noall_load"
 fi
 
-make -f $makefile CC=gcc CFLAGS="-O -fPIC"
+make -f $makefile CC=gcc CFLAGS="-O -fPIC $cflags"
 g++ -fPIC -shared -I$WORKSPACE/srcdir/asl-extra -I. $WORKSPACE/srcdir/asl-extra/aslinterface.cc -Wl,${all_load} amplsolver.a -Wl,${noall_load} -o libasl.$so
 mv libasl.$so $prefix/lib
 
@@ -55,9 +60,6 @@ exit
 # macOS build fails with message
 # ld: file not found: /usr/lib/system/libcache.dylib for architecture x86_64
 # if [ $target = "x86_64-apple-darwin14" ]; then
-# fi
-
-# if [ $target = "x86_64-unknown-freebsd11.1" ]; then
 # fi
 
 """
@@ -74,6 +76,7 @@ platforms = [
     Linux(:x86_64, libc=:musl),
     Linux(:aarch64, libc=:musl),
     Linux(:armv7l, libc=:musl, call_abi=:eabihf),
+    FreeBSD(:x86_64),
     Windows(:i686),
     Windows(:x86_64)
 ]
