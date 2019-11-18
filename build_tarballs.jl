@@ -3,12 +3,12 @@
 using BinaryBuilder
 
 name = "ThinASLBuilder"
-version = v"0.1.0"
+version = v"0.3.0"
 
 # Collection of sources required to build ThinASLBuilder
 sources = [
     "http://netlib.org/ampl/solvers.tgz" =>
-    "16495404313c54c462c806a4b3e5c80805b23d36cabc12d7796d7a1b6be08c20",
+    "775b92cadaf95af73fdeec3effba6b9c6ffdc518e5f628b575140fb170885903",
     "./bundled"
 ]
 
@@ -49,10 +49,13 @@ if [ $target = "x86_64-apple-darwin14" ]; then
     so="dylib"
     all_load="-all_load"
     noall_load="-noall_load"
+else
+    CC=gcc
+    CXX=g++
 fi
 
-make -f $makefile CC=gcc CFLAGS="-O -fPIC $cflags"
-g++ -fPIC -shared -I$WORKSPACE/srcdir/asl-extra -I. $WORKSPACE/srcdir/asl-extra/aslinterface.cc -Wl,${all_load} amplsolver.a -Wl,${noall_load} -o libasl.$so
+make -f $makefile CC="$CC" CFLAGS="-O -fPIC $cflags"
+$CXX -fPIC -shared -I$WORKSPACE/srcdir/asl-extra -I. $WORKSPACE/srcdir/asl-extra/aslinterface.cc -Wl,${all_load} amplsolver.a -Wl,${noall_load} -o libasl.$so
 mv libasl.$so $prefix/lib
 
 exit
@@ -61,7 +64,6 @@ exit
 # ld: file not found: /usr/lib/system/libcache.dylib for architecture x86_64
 # if [ $target = "x86_64-apple-darwin14" ]; then
 # fi
-
 """
 
 # These are the platforms we will build for by default, unless further
@@ -76,6 +78,7 @@ platforms = [
     Linux(:x86_64, libc=:musl),
     Linux(:aarch64, libc=:musl),
     Linux(:armv7l, libc=:musl, call_abi=:eabihf),
+    MacOS(:x86_64),
     FreeBSD(:x86_64),
     Windows(:i686),
     Windows(:x86_64)
